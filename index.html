@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="referrer" content="never">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <meta http-equiv="cache-control" content="max-age=0">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <meta http-equiv="expires" content="Tur, 01 Jan 1980 1:00:00 GMT">
+  <meta http-equiv="oargma" content="no-cache">
+  <meta name="format-detection" content="telephone=yes" />
+  <link rel="icon" href="./image/favicon.ico">
+  <!-- 引入样式文件 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@3/lib/index.css" />
+  <title>GBT白皮书</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    #app {
+      margin: auto;
+      max-width: 600px
+    }
+
+    .my-swipe {
+      height: 100vh;
+    }
+
+    #music {
+      position: fixed;
+      top: 2%;
+      right: 3%;
+      width: 40px;
+      height: 40px;
+    }
+
+    .cilcle {
+      animation: myfirst 5s infinite linear;
+    }
+
+    @keyframes myfirst {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #music>img {
+      width: 100%;
+      /* height: 100%; */
+    }
+
+    .van-swipe-item {
+      overflow-y: auto;
+      background-color: #014FA0;
+    }
+  </style>
+</head>
+
+<body style="background:#014FA0;padding: 0;">
+  <div id="app">
+    <van-swipe :show-indicators="false" class="my-swipe" lazy-render>
+      <van-swipe-item v-for="(image,index) in images" :key="index">
+        <img style="width: 100%;background-repeat: no-repeat; display: block;" :src="image" />
+      </van-swipe-item>
+    </van-swipe>
+    <div id="music" @click="music" :class="{'cilcle' : iscilcle}">
+      <img v-if="iscilcle" src="./image/music_icon1.png" alt="">
+      <img v-else src="./image/music_icon2.png" alt="">
+
+      <audio id="audio" loop ref="audio" autoplay :src="musicUrl"></audio>
+    </div>
+  </div>
+</body>
+<!-- import Vue before Element -->
+<script src="./js/vue.min.js"></script>
+<script src="./js/vant.min.js"></script>
+
+<script>
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        musicUrl: "https://img.zccbtc.com/baipishu.mp3",
+        iscilcle: false,
+        musicList: [
+          { src: "https://img.zccbtc.com/baipishu.mp3" },
+          { src: "https://img.zccbtc.com/baipishu.mp3" },
+          { src: "https://img.zccbtc.com/baipishu.mp3" },
+        ],
+        images: [
+          'https://img.zccbtc.com/20220320-1.jpg',
+          'https://img.zccbtc.com/20220320-2.jpg',
+          'https://img.zccbtc.com/20220320-3.jpg',
+          'https://img.zccbtc.com/20220320-4.jpg',
+          'https://img.zccbtc.com/20220320-5.jpg',
+          'https://img.zccbtc.com/20220320-6.jpg',
+          'https://img.zccbtc.com/20220320-7.jpg',
+          'https://img.zccbtc.com/20220320-8.jpg',
+          'https://img.zccbtc.com/20220320-9.jpg',
+          'https://img.zccbtc.com/20220320-10.jpg',
+          'https://img.zccbtc.com/20220320-11.jpg',
+          'https://img.zccbtc.com/20220320-12.jpg',
+          'https://img.zccbtc.com/20220320-13.jpg',
+          'https://img.zccbtc.com/20220320-14.jpg',
+
+        ],
+      }
+    },
+    methods: {
+      music: function () {
+        var audio = document.getElementById('audio');
+        if (audio.paused) {
+          let temp = this.index;
+          while (this.index == temp) {
+            this.index = parseInt(Math.random() * 3);
+            console.log(this.index);
+          }
+          this.musicUrl = "https://img.zccbtc.com/baipishu.mp3";
+          audio.play();  // 播放      
+          this.iscilcle = true;
+
+        } else {
+          this.musicUrl = ''
+          audio.pause();// 暂停
+          this.iscilcle = false;
+        }
+      }
+    }
+  })
+
+
+  // 通过 CDN 引入时不会自动注册 Lazyload 组件
+  // 可以通过下面的方式手动注册
+  // Vue.use(vant.Lazyload);
+</script>
+
+</html>
